@@ -10,7 +10,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Literal
 
 from .stations.service import station_service
 from .weather.grid_service import grid_service
@@ -141,7 +141,7 @@ def get_weather_metadata():
     return grid_service.get_grid_metadata()
 
 @app.get("/api/weather/grid")
-def get_weather_grid(variable: str = Query("temperature", enum=["temperature", "wind", "pressure_msl"])):
+def get_weather_grid(variable: Literal["temperature", "wind", "pressure_msl"] = Query("temperature")):
     """
     Provides gridded meteorological scalar/vector data matrix for Vane MapLibre WebGL layers.
     """
